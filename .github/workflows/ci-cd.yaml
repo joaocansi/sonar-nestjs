@@ -1,0 +1,49 @@
+name: CI/CD Pipeline for NestJS with SonarQube
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # Run tests with coverage
+      - name: Run Tests
+        run: npm test -- --coverage
+
+      # # Upload test coverage report
+      # - name: Upload Coverage
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: coverage
+      #     path: coverage
+
+      # # Run SonarQube Scanner
+      # - name: SonarQube Analysis
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     npx sonar-scanner \
+      #       -Dsonar.projectKey=your_project_key \
+      #       -Dsonar.sources=src \
+      #       -Dsonar.host.url=https://your-sonarqube-server-url \
+      #       -Dsonar.login=${SONAR_TOKEN} \
+      #       -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
