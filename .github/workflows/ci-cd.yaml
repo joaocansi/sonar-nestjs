@@ -37,3 +37,14 @@ jobs:
       # Run tests with coverage
       - name: Run Tests
         run: yarn test --coverage
+
+      - name: SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonar-scanner \
+            -Dsonar.projectKey=sonar-nestjs \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${SONAR_TOKEN} \
+            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
