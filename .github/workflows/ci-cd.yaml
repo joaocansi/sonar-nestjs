@@ -21,29 +21,19 @@ jobs:
         with:
           node-version: 18
 
-      # Install dependencies
+      # Cache yarn dependencies (optional, improves performance)
+      - name: Cache Yarn Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # Install dependencies using Yarn
       - name: Install Dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       # Run tests with coverage
       - name: Run Tests
-        run: npm test -- --coverage
-
-      # # Upload test coverage report
-      # - name: Upload Coverage
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: coverage
-      #     path: coverage
-
-      # # Run SonarQube Scanner
-      # - name: SonarQube Analysis
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     npx sonar-scanner \
-      #       -Dsonar.projectKey=your_project_key \
-      #       -Dsonar.sources=src \
-      #       -Dsonar.host.url=https://your-sonarqube-server-url \
-      #       -Dsonar.login=${SONAR_TOKEN} \
-      #       -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        run: yarn test --coverage
