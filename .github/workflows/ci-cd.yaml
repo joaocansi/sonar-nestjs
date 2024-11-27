@@ -10,7 +10,6 @@ jobs:
   sonar-scan:
     runs-on: ubuntu-latest
     steps:
-      steps:
       - name: Checkout Code
         uses: actions/checkout@v3
         
