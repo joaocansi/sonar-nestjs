@@ -35,7 +35,7 @@ resource "aws_security_group" "example" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-006dcf34c09e50022" // Amazon Linux 2 AMI
+  ami           = "ami-006dcf34c09e50022"
   instance_type = "t2.micro"
   key_name      = "ec2"
   vpc_security_group_ids = [
@@ -47,7 +47,7 @@ resource "aws_instance" "example" {
               systemctl enable docker
               systemctl start docker
               sudo chown $USER /var/run/docker.sock
-              docker run -p 80:80 -d nginx
+              docker run -p 80:80 -d joaocansi/nestjs-app:latest
               EOF
 }
 
