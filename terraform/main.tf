@@ -47,7 +47,7 @@ resource "aws_instance" "example" {
               systemctl enable docker
               systemctl start docker
               sudo chown $USER /var/run/docker.sock
-              docker run -p 80:80 -d joaocansi/nestjs-app:latest
+              docker run -p 80:3000 -d joaocansi/nestjs-app:latest
               EOF
 }
 
