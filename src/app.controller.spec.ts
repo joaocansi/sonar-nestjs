@@ -17,7 +17,8 @@ describe('AppController', () => {
   describe('root', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toEqual({
-        hello: 'my gorgeous friend. my name is pewdiepie. ',
+        hello:
+          'my gorgeous friend. my name is pewdiepie. welcome to my channel.',
       });
     });
   });
