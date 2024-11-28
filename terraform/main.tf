@@ -57,6 +57,7 @@ resource "aws_instance" "sonar_nestjs" {
   user_data = base64encode(templatefile("setup.sh.tpl", {
     COMMIT = local.commit
   }))
+  user_data_replace_on_change = true
   lifecycle {
     create_before_destroy = true
   }
