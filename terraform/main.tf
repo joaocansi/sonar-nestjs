@@ -60,7 +60,7 @@ resource "aws_instance" "sonar_nestjs" {
               systemctl enable docker
               systemctl start docker
               sudo chown $USER /var/run/docker.sock
-              docker run -p 80:3000 -d joaocansi/nestjs-app:latest
+              docker run -p 80:3000 -d joaocansi/nestjs-app:${local.commit}
               EOF
   lifecycle {
     create_before_destroy = true
