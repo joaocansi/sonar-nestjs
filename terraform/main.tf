@@ -77,3 +77,5 @@ resource "aws_eip" "sonar_nestjs" {
 output "elastic_ip" {
   value = aws_eip.sonar_nestjs.public_ip
 }
+
+output "app_image" { value = "${local.docker_image}:${local.commit}"}
