@@ -54,16 +54,9 @@ resource "aws_instance" "sonar_nestjs" {
   instance_type = "t2.micro"
   key_name      = "ec2"
   vpc_security_group_ids = [aws_security_group.sonar_nestjs.id]
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install docker -y
-              sudo service docker start
-              sudo usermod -a -G docker ec2-user
-              sudo chkconfig docker on
-              docker ps -q --filter "ancestor=${local.docker_image}" | xargs -r docker stop | xargs -r docker rm
-              docker run -p 80:3000 -d ${local.docker_image}:${local.commit}
-              EOF
+  user_data = base64encode(templatefile("setup.sh.tpl", {
+    COMMIT = local.commit
+  }))
   lifecycle {
     create_before_destroy = true
   }
