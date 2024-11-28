@@ -67,10 +67,10 @@ jobs:
           VERSION_TAG="${COMMIT_HASH}"
           LATEST_TAG="latest"
           docker build \
-            --tag ${{ env.DOCKER_URL }}:${VERSION_TAG} \
-            --tag ${{ env.DOCKER_URL }}:${LATEST_TAG} .
-          docker push ${{ env.DOCKER_URL }}:${VERSION_TAG}
-          docker push ${{ env.DOCKER_URL }}:${LATEST_TAG}
+            --tag ${{ vars.DOCKER_URL }}:${VERSION_TAG} \
+            --tag ${{ vars.DOCKER_URL }}:${LATEST_TAG} .
+          docker push ${{ vars.DOCKER_URL }}:${VERSION_TAG}
+          docker push ${{ vars.DOCKER_URL }}:${LATEST_TAG}
 
   deploy:
     runs-on: ubuntu-latest
