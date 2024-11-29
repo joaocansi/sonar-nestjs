@@ -1,0 +1,12 @@
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Victor Oliveira",
+  "email": "whitsh2003@gmail.com",
+  "password": "victor1234",
+  "passport": {
+    "number": "32132132132",
+    "country": "SC"
+  }
+}
