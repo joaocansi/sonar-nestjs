@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserRepository } from './domain/user-repository';
-import { AppError, ErrorType } from 'src/common/errors/error';
+import { AppError, ErrorType } from './../common/errors/error';
 
 @Injectable()
 export default class UserService {

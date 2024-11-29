@@ -9,7 +9,6 @@ export default class UserController {
   @Post()
   @HttpCode(201)
   async createUser(@Body() data: CreateUserDto) {
-    console.log(data);
     await this.userService.createUser(data);
   }
 }

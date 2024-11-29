@@ -62,6 +62,12 @@
       "json",
       "ts"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80
+      }
+    },
     "moduleNameMapper": {
       "src/(.*)$": "<rootDir>/$1" 
     },
@@ -71,7 +77,11 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/*.module.(t|j)s",
+      "!**/*.entity.(t|j)s",
+      "!**/main.(t|j)s",
+      "!**/config.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

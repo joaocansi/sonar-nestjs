@@ -1,8 +1,9 @@
 import UserService from './users.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserRepository } from './domain/user-repository';
+import UserController from './users.controller';
 
-describe('UserService', () => {
+describe('UserController', () => {
   const mockDto = {
     email: 'test@example.com',
     password: 'password',
@@ -13,7 +14,7 @@ describe('UserService', () => {
     },
   };
 
-  let service: UserService;
+  let controller: UserController;
   let userRepositoryMock: UserRepository;
 
   beforeEach(async () => {
@@ -30,33 +31,31 @@ describe('UserService', () => {
           useValue: userRepositoryMock,
         },
       ],
+      controllers: [UserController],
     }).compile();
 
-    service = module.get<UserService>(UserService);
+    controller = module.get<UserController>(UserController);
     userRepositoryMock = module.get<UserRepository>('UserRepository');
   });
 
-  it('should throw an error if email is already registered', async () => {
+  it('should return status 409 (e-mail already exists)', async () => {
     jest
       .spyOn(userRepositoryMock, 'isUserAlreadyRegistered')
-      .mockResolvedValueOnce(true);
+      .mockResolvedValue(true);
 
-    await expect(service.createUser(mockDto)).rejects.toThrow(
+    await expect(controller.createUser(mockDto)).rejects.toThrow(
       'e-mail already registered',
     );
-    expect(userRepositoryMock.isUserAlreadyRegistered).toHaveBeenCalledWith(
-      mockDto.email,
-    );
+    expect(userRepositoryMock.isUserAlreadyRegistered).toHaveBeenCalled();
   });
 
-  it('should create the user', async () => {
+  it('should create user', async () => {
     jest
       .spyOn(userRepositoryMock, 'isUserAlreadyRegistered')
-      .mockResolvedValueOnce(false);
+      .mockResolvedValue(false);
 
-    await expect(service.createUser(mockDto)).resolves.toBeUndefined();
-    expect(userRepositoryMock.isUserAlreadyRegistered).toHaveBeenCalledWith(
-      mockDto.email,
-    );
+    await expect(controller.createUser(mockDto)).resolves.toBeUndefined();
+    expect(userRepositoryMock.isUserAlreadyRegistered).toHaveBeenCalled();
+    expect(userRepositoryMock.createUser).toHaveBeenCalled();
   });
 });

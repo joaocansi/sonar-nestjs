@@ -2,6 +2,7 @@ export enum ErrorType {
   RESOURCE_NOT_FOUND,
   RESOURCE_CONFLICT,
   RESOURCE_ALREADY_EXISTS,
+  INTERNAL_ERROR,
 }
 
 export class AppError extends Error {
