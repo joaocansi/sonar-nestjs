@@ -38,7 +38,6 @@ jobs:
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey=es2-tests_sonar-nestjs \
-            -Dsonar.sources=src \
             -Dsonar.exclusions=src/**/*.spec.ts \
             -Dsonar.coverage.exclusions=src/**/*.spec.ts \
             -Dsonar.organization=es2-tests \

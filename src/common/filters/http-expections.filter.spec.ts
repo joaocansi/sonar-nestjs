@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppError, ErrorType } from '../errors/error';
 import { Response } from 'express';
 import { ArgumentsHost } from '@nestjs/common';
 import { HttpExceptionFilter } from './http-expection.filter';
+import AppError, { AppErrorType } from '../domain/app-error';
 
 describe('HttpExceptionFilter', () => {
   let filter: HttpExceptionFilter;
@@ -34,7 +34,7 @@ describe('HttpExceptionFilter', () => {
   it('should handle RESOURCE_ALREADY_EXISTS error', () => {
     const exception = new AppError(
       'Resource already exists',
-      ErrorType.RESOURCE_ALREADY_EXISTS,
+      AppErrorType.RESOURCE_ALREADY_EXISTS,
     );
     filter.catch(exception, host);
     expect(response.status).toHaveBeenCalledWith(409);
@@ -47,7 +47,7 @@ describe('HttpExceptionFilter', () => {
   it('should handle RESOURCE_NOT_FOUND error', () => {
     const exception = new AppError(
       'Resource not found',
-      ErrorType.RESOURCE_NOT_FOUND,
+      AppErrorType.RESOURCE_NOT_FOUND,
     );
     filter.catch(exception, host);
     expect(response.status).toHaveBeenCalledWith(404);
@@ -60,7 +60,7 @@ describe('HttpExceptionFilter', () => {
   it('should handle RESOURCE_CONFLICT error type', () => {
     const exception = new AppError(
       'Resource conflict',
-      ErrorType.RESOURCE_CONFLICT,
+      AppErrorType.RESOURCE_CONFLICT,
     );
     filter.catch(exception, host);
     expect(response.status).toHaveBeenCalledWith(409);
@@ -71,7 +71,10 @@ describe('HttpExceptionFilter', () => {
   });
 
   it('should handle unknown error type', () => {
-    const exception = new AppError('Unknown error', ErrorType.INTERNAL_ERROR);
+    const exception = new AppError(
+      'Unknown error',
+      AppErrorType.INTERNAL_ERROR,
+    );
     filter.catch(exception, host);
     expect(response.status).toHaveBeenCalledWith(500);
     expect(response.json).toHaveBeenCalledWith({

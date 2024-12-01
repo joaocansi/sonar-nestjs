@@ -12,6 +12,7 @@ export default class TypeormUserRepository implements UserRepository {
 
   async isUserAlreadyRegistered(email: string): Promise<boolean> {
     const user = await this.database.findOneBy({ email });
-    return !!user;
+    if (user) return true;
+    return false;
   }
 }

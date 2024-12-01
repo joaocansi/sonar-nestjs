@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserRepository } from './domain/user-repository';
-import { AppError, ErrorType } from './../common/errors/error';
+import AppError, { AppErrorType } from './../common/domain/app-error';
 
 @Injectable()
 export default class UserService {
@@ -17,7 +17,7 @@ export default class UserService {
     if (isUserAlreadyRegistered) {
       throw new AppError(
         'e-mail already registered',
-        ErrorType.RESOURCE_ALREADY_EXISTS,
+        AppErrorType.RESOURCE_ALREADY_EXISTS,
       );
     }
 

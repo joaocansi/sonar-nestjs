@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import UserEntity from '../entities/user.entity';
 import { Repository } from 'typeorm';
 
-describe('UserRepository', () => {
+describe('TypeormUserRepository', () => {
   let userRepository: TypeormUserRepository;
   let repository: Partial<Repository<UserEntity>>;
 
