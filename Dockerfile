@@ -11,6 +11,8 @@ RUN npm install --ignore-scripts
 
 COPY --chown=appuser:appuser . .
 
+RUN chmod -R a-w /usr/src/app
+
 EXPOSE 80
 
 CMD [ "npm", "start" ]
