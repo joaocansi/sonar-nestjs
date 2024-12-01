@@ -4,15 +4,13 @@ import { DataSource } from 'typeorm';
 
 @Global()
 @Module({
-  // imports: [ConfigModule.forRoot()],
   providers: [
     {
       provide: DataSource,
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
-        console.log(config.get('DATABASE_TEST'));
         const dataSource = new DataSource({
-          type: 'sqlite',
+          type: config.get<any>('DATABASE_TYPE'),
           database: __dirname + '/../../db.sqlite',
           synchronize: true,
         });
