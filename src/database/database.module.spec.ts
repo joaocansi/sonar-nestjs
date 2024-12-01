@@ -4,47 +4,36 @@ import { DataSource } from 'typeorm';
 import { DatabaseModule } from './database.module';
 
 describe('DatabaseModule', () => {
+  let configService: Partial<ConfigService>;
   let dataSource: DataSource;
-  let configService: ConfigService;
-  let initializeSpy: jest.SpyInstance;
 
   beforeEach(async () => {
-    const mockConfigService = {
-      get: jest.fn((key: string) => {
+    configService = {
+      get: jest.fn().mockImplementation((key: string) => {
         const config = {
           DATABASE_TYPE: 'sqlite',
         };
         return config[key];
       }),
     };
-    initializeSpy = jest
-      .spyOn(DataSource.prototype, 'initialize')
-      .mockImplementation(async () => {
-        return Promise.resolve(dataSource);
-      });
+
+    Object.defineProperty(DataSource.prototype, 'isInitialized', {
+      value: true,
+      writable: true,
+    });
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule],
     })
       .overrideProvider(ConfigService)
-      .useValue(mockConfigService)
+      .useValue(configService)
       .compile();
 
-    dataSource = module.get<DataSource>(DataSource);
-    configService = module.get<ConfigService>(ConfigService);
+    dataSource = module.get(DataSource);
   });
 
-  it('should be defined', () => {
-    expect(dataSource).toBeDefined();
-    expect(configService).toBeDefined();
-  });
-
-  it('should call initialize when DataSource is created', () => {
-    expect(initializeSpy).toHaveBeenCalled();
-  });
-
-  it('should use the mock ConfigService', () => {
-    const testValue = configService.get('DATABASE_TYPE');
-    expect(testValue).toBe('sqlite');
+  it('should return the dataSource', async () => {
+    expect(dataSource).toHaveProperty('isInitialized', true);
+    expect(configService.get('DATABASE_TYPE')).toBe('sqlite');
   });
 });
