@@ -1,12 +1,15 @@
 FROM node:18
 
+RUN useradd -ms /bin/bash appuser
+
 WORKDIR /usr/src/app
+RUN chown -R appuser:appuser /usr/src/app
 
-COPY package.json .
+COPY --chown=appuser:appuser package*.json ./
 
-RUN npm install
+RUN npm install --ignore-scripts
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
 EXPOSE 80
 
