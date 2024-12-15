@@ -5,7 +5,7 @@ import {
   GetSecretValueCommand,
   SecretsManagerClient,
 } from '@aws-sdk/client-secrets-manager';
-import { fromIni } from '@aws-sdk/credential-providers';
+import { fromIni, fromInstanceMetadata } from '@aws-sdk/credential-providers';
 
 import { MailerModule } from '@nestjs-modules/mailer';
 import AppController from './app.controller';
@@ -15,7 +15,7 @@ const fetchSecrets = async (secretName: string) => {
   const configService = new ConfigService();
   const client = new SecretsManagerClient({
     region: configService.get('AWS_REGION'),
-    credentials: fromIni(),
+    credentials: fromInstanceMetadata(),
   });
 
   console.log(await client.config.credentials());
