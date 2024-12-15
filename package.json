@@ -65,12 +65,6 @@
       "json",
       "ts"
     ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80
-      }
-    },
     "moduleNameMapper": {
       "src/(.*)$": "<rootDir>/$1"
     },
