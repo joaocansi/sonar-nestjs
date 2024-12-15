@@ -36,6 +36,7 @@ const fetchSecrets = async (secretName: string) => {
           if (configService.get('NODE_ENV') === 'prod') {
             const secretName = configService.get('AWS_SECRET_NAME');
             const secrets = await fetchSecrets(secretName);
+            console.log(secrets);
             return {
               MAILER_HOST: secrets.MAILER_HOST,
               MAILER_PORT: secrets.MAILER_PORT,
@@ -52,7 +53,7 @@ const fetchSecrets = async (secretName: string) => {
         return {
           transport: {
             host: configService.get('MAILER_HOST'),
-            port: configService.get('MAILER_PORT'),
+            port: configService.get<number>('MAILER_PORT'),
             auth: {
               user: configService.get('MAILER_USERNAME'),
               pass: configService.get('MAILER_PASSWORD'),
